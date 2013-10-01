@@ -212,4 +212,17 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("map") {
+    new TestSets {
+
+      val s123 = union(union(s1, s2), s3)
+      
+      val ms = map(s123, x => 10 * x)
+      
+      assert(contains(ms, 10))
+      assert(contains(ms, 20))
+      assert(contains(ms, 30))
+    }
+  }
+
 }
