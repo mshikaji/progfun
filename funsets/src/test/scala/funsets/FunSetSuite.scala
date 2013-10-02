@@ -219,6 +219,9 @@ class FunSetSuite extends FunSuite {
       
       val ms = map(s123, x => 10 * x)
       
+      assert(!contains(ms, 1))
+      assert(!contains(ms, 2))
+      assert(!contains(ms, 3))
       assert(contains(ms, 10))
       assert(contains(ms, 20))
       assert(contains(ms, 30))
