@@ -1,9 +1,9 @@
 package objsets
 
 import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import scala.util.Random
 
 @RunWith(classOf[JUnitRunner])
 class TweetSetSuite extends FunSuite {
@@ -59,6 +59,25 @@ class TweetSetSuite extends FunSuite {
   test("union: with empty set (2)") {
     new TestSets {
       assert(size(set1.union(set5)) === 4)
+    }
+  }
+
+  test("mostRetweeted: empty set") {
+    val s1 = new Empty
+    intercept[NoSuchElementException] {
+      s1.mostRetweeted
+    }
+  }
+
+  test("mostRetweeted: real set") {
+    new TestSets {
+      val s = Seq.fill(1000)(Random.nextInt(1000000))
+      var e:TweetSet = new Empty
+      val tss = s.foldRight(e)((i, t) => t.incl(new Tweet("user", "text" + i, i)))
+      //println(asSet(tss))
+      //println(s.max)
+      //println(tss.mostRetweeted.retweets)
+      assert(s.max == tss.mostRetweeted.retweets)
     }
   }
 
