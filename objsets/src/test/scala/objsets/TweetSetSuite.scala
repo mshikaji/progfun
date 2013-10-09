@@ -70,22 +70,32 @@ class TweetSetSuite extends FunSuite {
   }
 
   test("mostRetweeted: real set") {
-    new TestSets {
-      val s = Seq.fill(1000)(Random.nextInt(1000000))
-      var e:TweetSet = new Empty
-      val tss = s.foldRight(e)((i, t) => t.incl(new Tweet("user", "text" + i, i)))
-      //println(asSet(tss))
-      //println(s.max)
-      //println(tss.mostRetweeted.retweets)
-      assert(s.max == tss.mostRetweeted.retweets)
-    }
+    val s = Seq.fill(1000)(Random.nextInt(1000000))
+    var e: TweetSet = new Empty
+    val tss = s.foldRight(e)((i, t) => t.incl(new Tweet("user", "text" + i, i)))
+    assert(s.max == tss.mostRetweeted.retweets)
+  }
+
+  test("descending: empty set") {
+    val s1 = new Empty
+    assert(s1.descendingByRetweet == Nil)
   }
 
   test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
-      assert(!trends.isEmpty)
-      assert(trends.head.user == "a" || trends.head.user == "b")
+      assert(!trends.isEmpty, "empty")
+      assert(trends.head.user == "a" || trends.head.user == "b", "bad head")
     }
+  }
+
+  test("descending: test like a man") {
+    val s = Seq.fill(1000)(Random.nextInt(1000000))
+    var e: TweetSet = new Empty
+    val tss = s.foldRight(e)((i, t) => t.incl(new Tweet("user", "text" + i, i)))
+    val trends = tss.descendingByRetweet
+    assert(!trends.isEmpty)
+    assert(trends.head.user == "user")
+    assert(s.max == trends.head.retweets)
   }
 }

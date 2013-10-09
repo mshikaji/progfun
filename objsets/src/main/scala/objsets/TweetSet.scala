@@ -79,7 +79,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = descendingByRetweetAcc(Nil)
+
+  def descendingByRetweetAcc(tl: TweetList): TweetList
 
   /**
    * The following methods are already implemented
@@ -119,6 +121,8 @@ class Empty extends TweetSet {
 
   def mostRetweetedAcc(tw: Tweet) = tw
 
+  def descendingByRetweetAcc(tl: TweetList): TweetList = tl
+
   /**
    * The following methods are already implemented
    */
@@ -144,6 +148,12 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   def mostRetweetedAcc(tw: Tweet): Tweet = {
     val bestTw = if (tw.retweets > elem.retweets) tw else elem
     left.mostRetweetedAcc(right.mostRetweetedAcc(bestTw))
+  }
+
+  def descendingByRetweetAcc(tl: TweetList): TweetList = {
+    val tw = mostRetweeted
+    val newTs = remove(tw)
+    new Cons(tw, newTs.descendingByRetweetAcc(tl))
   }
 
   /**
