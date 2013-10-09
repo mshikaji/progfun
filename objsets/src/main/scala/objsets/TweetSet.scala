@@ -142,10 +142,8 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   def union(that: TweetSet): TweetSet = filterAcc(tw => true, that)
 
   def mostRetweetedAcc(tw: Tweet): Tweet = {
-    val newTw = if (tw.retweets > elem.retweets) tw else elem
-    val leftTw = left.mostRetweetedAcc(newTw)
-    val rightTw = right.mostRetweetedAcc(leftTw)
-    if (leftTw.retweets > rightTw.retweets) leftTw else rightTw
+    val bestTw = if (tw.retweets > elem.retweets) tw else elem
+    left.mostRetweetedAcc(right.mostRetweetedAcc(bestTw))
   }
 
   /**
