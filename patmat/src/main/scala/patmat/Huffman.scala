@@ -150,8 +150,8 @@ object Huffman {
    *    the example invocation. Also define the return type of the `until` function.
    *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
    */
-  def until(cond: List[CodeTree] => Boolean, combo: List[CodeTree] => List[CodeTree])(trees: List[CodeTree]): List[CodeTree] = {
-    if (cond(trees)) trees else until(cond, combo)(combo(trees))
+  def until(cond: List[CodeTree] => Boolean, action: List[CodeTree] => List[CodeTree])(trees: List[CodeTree]): List[CodeTree] = {
+    if (cond(trees)) trees else until(cond, action)(action(trees))
   }
 
   /**
