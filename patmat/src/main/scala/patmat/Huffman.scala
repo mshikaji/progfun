@@ -86,7 +86,7 @@ object Huffman {
 
     chars match {
       case h :: t => makeFreqs(h, times(t))
-      case _ => Nil
+      case Nil => Nil
     }
   }
 
@@ -101,7 +101,7 @@ object Huffman {
 
     def toLeafs(fs: List[(Char, Int)]): List[Leaf] = fs match {
       case h :: t => Leaf(h._1, h._2) :: toLeafs(t)
-      case _ => Nil
+      case Nil => Nil
     }
 
     toLeafs(freqs).sortWith((l1: Leaf, l2: Leaf) => l1.weight < l2.weight)
@@ -124,7 +124,14 @@ object Huffman {
    * If `trees` is a list of less than two elements, that list should be returned
    * unchanged.
    */
-  def combine(trees: List[CodeTree]): List[CodeTree] = ???
+  def combine(trees: List[CodeTree]): List[CodeTree] = trees match {
+    case t1 :: t2 :: ts => {
+      val newTs = makeCodeTree(t1, t2) :: ts
+      newTs.sortWith((ts1, ts2) => weight(ts1) < weight(ts2))
+    }
+    case t :: Nil => trees
+    case Nil => Nil
+  }
 
   /**
    * This function will be called in the following way:
