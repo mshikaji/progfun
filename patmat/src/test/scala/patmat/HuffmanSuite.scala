@@ -67,4 +67,9 @@ class HuffmanSuite extends FunSuite {
     assert(codeBits(t)('b') === List(0, 0, 1))
     assert(codeBits(t)('c') === List(0, 1, 0))
   }
+
+  test("convert") {
+    val t: CodeTree = Fork(Leaf('a', 1), Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), List('a', 'e', 't'), 4)
+    println(convert(t))
+  }
 }
