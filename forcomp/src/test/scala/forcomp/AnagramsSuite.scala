@@ -26,13 +26,17 @@ class AnagramsSuite extends FunSuite {
     assert(sentenceOccurrences(List("abcd", "e")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)))
   }
 
-
+  test("sentenceOccurrences: x abxcd e 123 ,:}& x ^") {
+    assert(sentenceOccurrences(List("x", "abxcd", "e", "123", ",:}& x ^")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1), ('x', 3)))
+  }
 
   test("dictionaryByOccurrences.get: eat") {
     assert(dictionaryByOccurrences.get(List(('a', 1), ('e', 1), ('t', 1))).map(_.toSet) === Some(Set("ate", "eat", "tea")))
   }
 
-
+  test("dictionaryByOccurrences.get: strEAM||ing  ") {
+    assert(dictionaryByOccurrences.get(wordOccurrences("strEAM||ing  ")).map(_.toSet) === Some(Set("streaming", "emigrants", "mastering")))
+  }
 
   test("word anagrams: married") {
     assert(wordAnagrams("married").toSet === Set("married", "admirer"))
